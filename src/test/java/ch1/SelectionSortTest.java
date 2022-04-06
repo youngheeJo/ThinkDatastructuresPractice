@@ -3,6 +3,8 @@ package ch1;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -45,8 +47,6 @@ public class SelectionSortTest {
 
         selectionSort.sort(array);
 
-        for (int i = 0; i < array.length; i++) {
-            assertEquals(expected[i], array[i]);
-        }
+        assertEquals(Arrays.toString(expected), Arrays.toString(array));
     }
 }
