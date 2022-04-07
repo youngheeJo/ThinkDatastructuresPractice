@@ -20,7 +20,7 @@ public class MyArrayListTest {
         list.add(2);
         list.add(3);
 
-        mylist = new ArrayList<>();
+        mylist = new MyArrayList<>();
         mylist.addAll(list);
     }
 
