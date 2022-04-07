@@ -60,18 +60,9 @@ public class MyArrayListTest {
                 () -> assertEquals(3, mylist.set(2, 7)),
                 () -> assertEquals(6, mylist.get(0)),
                 () -> assertEquals(5, mylist.get(1)),
-                () -> assertEquals(7, mylist.get(2))
+                () -> assertEquals(7, mylist.get(2)),
+                () -> assertThrows(IndexOutOfBoundsException.class, () -> mylist.set(-1, 0)),
+                () -> assertThrows(IndexOutOfBoundsException.class, () -> mylist.set(4, 0))
         );
-
-        try {
-            mylist.set(-1, 0);
-            fail();
-        } catch (IndexOutOfBoundsException e) {}
-
-        try {
-            mylist.set(4, 0);
-            fail();
-        } catch (IndexOutOfBoundsException e) {}
-
     }
 }
