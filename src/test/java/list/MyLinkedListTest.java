@@ -1,6 +1,5 @@
 package list;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
