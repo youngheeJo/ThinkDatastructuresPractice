@@ -1,4 +1,4 @@
-package ch2;
+package list;
 
 import java.util.*;
 
