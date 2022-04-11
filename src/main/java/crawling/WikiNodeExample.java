@@ -30,11 +30,11 @@ public class WikiNodeExample {
 		for (Element node : paras) {
 			recursiveDFS(node);
 		}
-		
-		recursiveDFS(firstPara);
 		System.out.println();
 
-		iterativeDFS(firstPara);
+		for (Element node : paras) {
+			iterativeDFS(node);
+		}
 		System.out.println();
 
 		Iterable<Node> iter = new WikiNodeIterable(firstPara);
@@ -46,10 +46,31 @@ public class WikiNodeExample {
 	}
 
 	private static void iterativeDFS(Node root) {
-		// TODO: FILL THIS IN!
+		Deque<Node> stack = new ArrayDeque<>();
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			Node node = stack.pop();
+
+			if (node instanceof TextNode) {
+				System.out.print(node);
+			}
+
+			List<Node> childNodes = new ArrayList<>(node.childNodes());
+			Collections.reverse(childNodes);
+
+			for (Node childNode : childNodes) {
+				stack.push(childNode);
+			}
+		}
 	}
 
 	private static void recursiveDFS(Node node) {
-		// TODO: FILL THIS IN!
+		if (node instanceof TextNode) {
+			System.out.print(node);
+		}
+		for (Node childNode : node.childNodes()) {
+			recursiveDFS(childNode);
+		}
 	}
 }
