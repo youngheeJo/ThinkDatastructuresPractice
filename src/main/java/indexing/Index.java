@@ -80,7 +80,12 @@ public class Index {
      * @param paragraphs  Collection of elements that should be indexed.
      */
     public void indexPage(String url, Elements paragraphs) {
-        // TODO: Your code here
+        TermCounter counter = new TermCounter(url);
+        counter.processElements(paragraphs);
+
+        for (String term : counter.keySet()) {
+            add(term, counter);
+        }
     }
 
     /**
