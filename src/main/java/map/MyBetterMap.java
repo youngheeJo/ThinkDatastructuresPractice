@@ -58,14 +58,18 @@ public class MyBetterMap<K, V> implements Map<K, V> {
 	@Override
 	public boolean containsKey(Object target) {
 		// to find a key, we only have to search one map
-		// TODO: FILL THIS IN!
-		return false;
+		Map<K, V> map = chooseMap(target);
+		return map.containsKey(target);
 	}
 
 	@Override
 	public boolean containsValue(Object target) {
 		// to find a value, we have to search all map
-		// TODO: FILL THIS IN!
+		for (Map<K, V> map : maps) {
+			if (map.containsValue(target)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
