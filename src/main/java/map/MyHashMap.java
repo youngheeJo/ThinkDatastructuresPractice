@@ -3,6 +3,7 @@
  */
 package map;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +40,15 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 	 *
 	 */
 	protected void rehash() {
-		// TODO: FILL THIS IN!
+		List<MyLinearMap<K, V>> temporalMaps = maps;
+
+		makeMaps(size() * 2);
+
+		for (MyLinearMap<K, V> map : temporalMaps) {
+			for (Map.Entry<K, V> entry : map.getEntries()) {
+				put(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	/**
