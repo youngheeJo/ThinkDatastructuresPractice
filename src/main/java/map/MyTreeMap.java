@@ -65,7 +65,17 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		@SuppressWarnings("unchecked")
 		Comparable<? super K> k = (Comparable<? super K>) target;
 
-		// TODO: FILL THIS IN!
+		Node node = root;
+		while (node != null) {
+			int resultOfCompared = k.compareTo(node.key);
+			if (resultOfCompared == 0) {
+				return node;
+			} else if (resultOfCompared > 0) {
+				node = node.right;
+			} else {
+				node = node.left;
+			}
+		}
 		return null;
 	}
 
@@ -89,7 +99,23 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	private boolean containsValueHelper(Node node, Object target) {
-		// TODO: FILL THIS IN!
+		Deque<Node> stack = new ArrayDeque<>();
+		stack.push(node);
+
+		while (!stack.isEmpty()) {
+			Node eachNode = stack.pop();
+			if (equals(target, eachNode.value)) {
+				return true;
+			}
+
+			if (eachNode.right != null) {
+				stack.push(eachNode.right);
+			}
+
+			if (eachNode.left != null) {
+				stack.push(eachNode.left);
+			}
+		}
 		return false;
 	}
 
@@ -115,8 +141,17 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	@Override
 	public Set<K> keySet() {
 		Set<K> set = new LinkedHashSet<K>();
-		// TODO: FILL THIS IN!
+		addInOrder(root, set);
 		return set;
+	}
+
+	private void addInOrder(Node node, Set<K> set) {
+		if (node == null) {
+			return;
+		}
+		addInOrder(node.left, set);
+		set.add(node.key);
+		addInOrder(node.right, set);
 	}
 
 	@Override
@@ -133,7 +168,34 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	private V putHelper(Node node, K key, V value) {
-		// TODO: FILL THIS IN!
+		Comparable<K> k = (Comparable<K>) key;
+
+		Node eachNode = node;
+
+		while (eachNode != null) {
+			int resultOfCompare = k.compareTo(eachNode.key);
+			if (resultOfCompare == 0) {
+				V oldValue = eachNode.value;
+				eachNode.value = value;
+				return oldValue;
+			} else if (resultOfCompare > 0) {
+				if (eachNode.right == null) {
+					eachNode.right = new Node(key, value);
+					size++;
+					return null;
+				} else {
+					eachNode = eachNode.right;
+				}
+			} else {
+				if (eachNode.left == null) {
+					eachNode.left = new Node(key, value);
+					size++;
+					return null;
+				} else {
+					eachNode = eachNode.left;
+				}
+			}
+		}
 		return null;
 	}
 
