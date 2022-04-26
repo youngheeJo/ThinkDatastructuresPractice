@@ -24,6 +24,7 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	protected class Node {
 		public K key;
 		public V value;
+		public Node parent = null;
 		public Node left = null;
 		public Node right = null;
 
@@ -33,9 +34,10 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		 * @param left
 		 * @param right
 		 */
-		public Node(K key, V value) {
+		public Node(K key, V value, Node parent) {
 			this.key = key;
 			this.value = value;
+			this.parent = parent;
 		}
 	}
 
@@ -160,7 +162,7 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 			throw new NullPointerException();
 		}
 		if (root == null) {
-			root = new Node(key, value);
+			root = new Node(key, value, null);
 			size++;
 			return null;
 		}
@@ -180,7 +182,7 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 				return oldValue;
 			} else if (resultOfCompare > 0) {
 				if (eachNode.right == null) {
-					eachNode.right = new Node(key, value);
+					eachNode.right = new Node(key, value, eachNode);
 					size++;
 					return null;
 				} else {
@@ -188,7 +190,7 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 				}
 			} else {
 				if (eachNode.left == null) {
-					eachNode.left = new Node(key, value);
+					eachNode.left = new Node(key, value, eachNode);
 					size++;
 					return null;
 				} else {
@@ -208,8 +210,46 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V remove(Object key) {
-		// OPTIONAL TODO: FILL THIS IN!
-		throw new UnsupportedOperationException();
+		Node targetNode = findNode(key);
+
+		if (targetNode != null) {
+			return removeHelper(targetNode);
+		}
+
+		return null;
+	}
+
+	private V removeHelper(Node targetNode) {
+		Node parentNode = targetNode.parent;
+		if (parentNode == null) {
+			if (targetNode.left != null) {
+				root = targetNode.left;
+			} else if (targetNode.right != null) {
+				root = targetNode.right;
+			} else {
+				root = null;
+			}
+		} else {
+			if (equals(parentNode.right.key, targetNode.key)) {
+				if (targetNode.left != null) {
+					parentNode.right = targetNode.left;
+				} else if (targetNode.right != null) {
+					parentNode.right = targetNode.right;
+				} else {
+					parentNode.right = null;
+				}
+			} else {
+				if (targetNode.left != null) {
+					parentNode.left = targetNode.left;
+				} else if (targetNode.right != null) {
+					parentNode.left = targetNode.right;
+				} else {
+					parentNode.left = null;
+				}
+			}
+		}
+		size--;
+		return targetNode.value;
 	}
 
 	@Override
@@ -257,7 +297,7 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	 * @return
 	 */
 	public Node makeNode(K key, V value) {
-		return new Node(key, value);
+		return new Node(key, value, null);
 	}
 
 	/**

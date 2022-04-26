@@ -24,28 +24,15 @@ public class MyTreeMapTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		map = new MyTreeMap<String, Integer>();
-		MyTreeMap<String, Integer>.Node node08 = map.makeNode("08", 8);
-		
-		MyTreeMap<String, Integer>.Node node03 = map.makeNode("03", 3);
-		MyTreeMap<String, Integer>.Node node10 = map.makeNode("10", 10);
-		node08.left = node03;
-		node08.right = node10;
-		
-		MyTreeMap<String, Integer>.Node node01 = map.makeNode("01", 1);
-		MyTreeMap<String, Integer>.Node node06 = map.makeNode("06", 6);
-		MyTreeMap<String, Integer>.Node node14 = map.makeNode("14", 14);
-		node03.left = node01;
-		node03.right = node06;
-		node10.right = node14;
-		
-		MyTreeMap<String, Integer>.Node node04 = map.makeNode("04", 4);
-		MyTreeMap<String, Integer>.Node node07 = map.makeNode("07", 7);
-		MyTreeMap<String, Integer>.Node node13 = map.makeNode("13", 13);
-		node06.left = node04;
-		node06.right = node07;
-		node14.left = node13;
-		
-		map.setTree(node08, 9);
+		map.put("08", 8);
+		map.put("03", 3);
+		map.put("10", 10);
+		map.put("01", 1);
+		map.put("06", 6);
+		map.put("14", 14);
+		map.put("04", 4);
+		map.put("07", 7);
+		map.put("13", 13);
 	}
 
 	/**
@@ -159,6 +146,21 @@ public class MyTreeMapTest {
 	@Test
 	public void testRemove() {
 		// nothing to test, since this method is not implemented
+		int oldValue = map.remove("08");
+		assertAll(
+				() -> assertEquals(8, oldValue),
+				() -> assertEquals(8, map.size()),
+				() -> assertNull(map.get("08"))
+		);
+
+		map.remove("06");
+		assertAll(
+				() -> assertEquals(7, map.size()),
+				() -> assertNull(map.get("06"))
+		);
+
+		map.remove("02");
+		assertEquals(7, map.size());
 	}
 
 	/**
